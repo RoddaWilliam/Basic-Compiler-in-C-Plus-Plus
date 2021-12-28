@@ -1,6 +1,3 @@
-// CompilerC--.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include <fstream>
 #include <windows.h>
@@ -70,6 +67,8 @@ static int Compile(string InputName, string outputName)
             }
 
             // CHECK FOR MATH STUFF
+
+            // ADDITION
             if (line.find("+") != string::npos) {
                 size_t pos = line.find("+");
                 string beforeSymbol = line.substr(0, pos);
