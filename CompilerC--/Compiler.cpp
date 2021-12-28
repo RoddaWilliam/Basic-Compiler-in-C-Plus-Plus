@@ -54,17 +54,21 @@ static int Compile(string InputName, string outputName)
 
         LogMe("Found thingy", FileName);
 
-        while (std::getline(inputString, line)) {
+        while (std::getline(inputString, line)) { 
 
             LogMe("Line: " + line, FileName);
 
-            // Remove useless symbols
-            if (line.find(";") != string::npos) {
-                line.replace(line.find(";"), line.length(), "");
+            for (std::string::iterator it = line.begin(); it != line.end(); ++it) {
+                // Remove useless symbols
+                if (line.find(";") != string::npos) {
+                    line.replace(line.find(";"), line.length(), "");
+                }
+                if (line.find(" ") != string::npos) {
+                    line.replace(line.find(" "), line.length(), "");
+                }
             }
-            if (line.find(" ") != string::npos) {
-            line.replace(line.find(" "), line.length(), "");
-            }
+
+            LogMe("New Line: " + line, FileName);
 
             // CHECK FOR MATH STUFF
 
@@ -72,40 +76,41 @@ static int Compile(string InputName, string outputName)
             if (line.find("+") != string::npos) {
                 size_t pos = line.find("+");
                 string beforeSymbol = line.substr(0, pos);
-                string afterSymbol = line.substr(pos, line.length());
+                string afterSymbol = line.substr(pos + 1, line.length());
 
                 float beforeValue = stof(beforeSymbol);
                 float afterValue = stof(afterSymbol);
-               
+
                 compileFileContents = compileFileContents + to_string(beforeValue + afterValue) + "\n";
-            }
+            } else 
             // SUBTRACT
             if (line.find("-") != string::npos) {
                 size_t pos = line.find("-");
                 string beforeSymbol = line.substr(0, pos);
-                string afterSymbol = line.substr(pos, line.length());
+                string afterSymbol = line.substr(pos + 1, line.length());
 
                 float beforeValue = stof(beforeSymbol);
                 float afterValue = stof(afterSymbol);
 
                 compileFileContents = compileFileContents + to_string(beforeValue - afterValue) + "\n";
-            }
+            } else
             // DIVIDE
             if (line.find("/") != string::npos) {
                 size_t pos = line.find("/");
                 string beforeSymbol = line.substr(0, pos);
-                string afterSymbol = line.substr(pos, line.length());
+                string afterSymbol = line.substr(pos + 1, line.length());
 
                 float beforeValue = stof(beforeSymbol);
                 float afterValue = stof(afterSymbol);
 
                 compileFileContents = compileFileContents + to_string(beforeValue / afterValue) + "\n";
-            }
+              
+            } else
             // MULTIPLY
             if (line.find("*") != string::npos) {
                 size_t pos = line.find("*");
                 string beforeSymbol = line.substr(0, pos);
-                string afterSymbol = line.substr(pos, line.length());
+                string afterSymbol = line.substr(pos + 1, line.length());
 
                 float beforeValue = stof(beforeSymbol);
                 float afterValue = stof(afterSymbol);
